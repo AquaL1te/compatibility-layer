@@ -1,0 +1,10 @@
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+LABEL maintainer "K. de Jong <kees.dejong@surf.nl>"
+
+RUN dnf --assumeyes --refresh update && \
+  dnf --assumeyes install openssh-server python3 redhat-lsb-core systemd \
+  gcc gcc-c++ make diffutils python3-pexpect sudo

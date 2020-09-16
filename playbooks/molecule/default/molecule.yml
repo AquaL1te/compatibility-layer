@@ -1,0 +1,33 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+platforms:
+  - name: cvmfsstratum0servers
+    hostname: cvmfsstratum0servers
+    image: docker.io/library/centos:8.2.2004
+    command: /sbin/init
+    environment:
+      - SHELL: /bin/bash
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    dockerfile: Dockerfile.j2
+    pre_build_image: false
+    privileged: false
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_CONFIG: ansible.cfg
+    ANSIBLE_ROLES_PATH: ../../roles/
+    MOLECULE_NO_LOG: true
+verifier:
+  name: ansible
+lint: |
+  set -e
+  ansible-lint
+  yamllint .
+  flake8

@@ -1,0 +1,9 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Example assertion
+    assert:
+      that: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

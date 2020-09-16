@@ -1,0 +1,24 @@
+---
+- name: prepare
+  hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: create bootstrap user (cannot be root)
+    user:
+      name: bootstrap
+
+  - name: download gentoo prefix bootstrap script
+    get_url:
+      url: https://raw.githubusercontent.com/EESSI/compatibility-layer/master/bootstrap-prefix.sh
+      dest: /usr/local/bin/bootstrap-prefix.sh
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: run gentoo prefix bootstrap script
+    command:
+      cmd: /usr/local/bin/bootstrap-prefix.sh "$@"
+      #creates: /cvmfs/pilot.eessi-hpc.org/2020.08/compat/x86_64
+    become: true
+    become_user: bootstrap
