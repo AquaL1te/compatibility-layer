@@ -10,3 +10,4 @@
     PATH: "{{ gentoo_prefix_path }}/usr/bin:{{ gentoo_prefix_path }}/bin:{{ ansible_env.PATH }}"
     EPREFIX: "{{ gentoo_prefix_path }}"
     BPREFIX: "{{ gentoo_prefix_path }}"
+    LC_ALL: C
