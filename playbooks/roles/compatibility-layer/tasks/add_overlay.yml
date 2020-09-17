@@ -34,7 +34,7 @@
 
 - name: Sync the repositories
   portage:
-    sync: 'yes'
+    sync: web
 
 - name: Make sets directory
   file:
