@@ -5,34 +5,33 @@
     ansible_python_interpreter: /usr/bin/python3
     gentoo_prefix_path: /cvmfs/pilot.eessi-hpc.org/2020.08/compat/x86_64
   tasks:
-  - name: create bootstrap user
-    user:
-      name: bootstrap
+    - name: create bootstrap user
+      user:
+        name: bootstrap
 
-  - name: create bootstrap skeleton
-    file:
-      path: "{{ gentoo_prefix_path }}"
-      state: directory
-      recurse: yes
-      owner: bootstrap
-      group: bootstrap
+    - name: create cvmfs bootstrap root directory
+      file:
+        path: /cvmfs
+        state: directory
+        owner: bootstrap
+        group: bootstrap
 
-  - name: download gentoo prefix bootstrap script
-    get_url:
-      url: https://raw.githubusercontent.com/EESSI/compatibility-layer/master/bootstrap-prefix.sh
-      dest: /usr/local/bin/bootstrap-prefix.sh
-      owner: root
-      group: root
-      mode: "0755"
+    - name: download gentoo prefix bootstrap script
+      get_url:
+        url: https://raw.githubusercontent.com/EESSI/compatibility-layer/master/bootstrap-prefix.sh
+        dest: /usr/local/bin/bootstrap-prefix.sh
+        owner: root
+        group: root
+        mode: "0755"
 
-  - name: run gentoo prefix bootstrap script
-    command:
-      argv:
-        - /usr/local/bin/bootstrap-prefix.sh
-        - "{{ gentoo_prefix_path }}"
-        - noninteractive
-      #creates: "{{ gentoo_prefix_path }}"
-    environment:
-      EPREFIX: "{{ gentoo_prefix_path }}"
-    become: true
-    become_user: bootstrap
+    - name: run gentoo prefix bootstrap script
+      command:
+        argv:
+          - /usr/local/bin/bootstrap-prefix.sh
+          - "{{ gentoo_prefix_path }}"
+          - noninteractive
+        creates: "{{ gentoo_prefix_path }}"
+      environment:
+        EPREFIX: "{{ gentoo_prefix_path }}"
+      become: true
+      become_user: bootstrap
