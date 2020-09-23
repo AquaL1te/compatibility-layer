@@ -39,3 +39,14 @@ ansible-playbook -i hosts -K install.yml
 ```
 The `-K` option will ask for your sudo password, and you have to supply a valid hosts file (here named `hosts`).
 By default, the playbook will only run on the host listed in the `cvmfsstratum0servers` section of your hosts file.
+
+### Test playbook with Molecule
+[Molecule](https://molecule.readthedocs.io/en/latest/) is designed to test playbooks inside e.g. a [Podman](https://podman.io/getting-started/installation.html) container for idempotency, errors, syntax and custom checks.
+
+On a Fedora 32 system you can get started by the following steps.
+1. `sudo dnf in podman python3-molecule`
+2. `sudo setsebool -P container_manage_cgroup on`
+3. `cd playbooks`
+4. `molecule create` to create the container, `molecule converge` to create the container and run the playbook, `molecule test` to do what converge does, but test for idempotency and other tests like e.g. linting, `molecule login` to login into the container interactively. See `molecule --help` for more subcommands.
+
+For more information, check [part 1](https://www.ansible.com/blog/developing-and-testing-ansible-roles-with-molecule-and-podman-part-1) and [part 2](https://www.ansible.com/blog/developing-and-testing-ansible-roles-with-molecule-and-podman-part-2) from the Red Hat Ansible blog or [this](https://redhatnordicssa.github.io/test-ansible-role-molecule-podman) quickstart guide.
