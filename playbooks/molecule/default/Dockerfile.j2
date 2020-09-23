@@ -6,5 +6,4 @@ FROM {{ item.image }}
 LABEL maintainer "K. de Jong <kees.dejong@surf.nl>"
 
 RUN dnf --assumeyes --refresh update && \
-  dnf --assumeyes install openssh-server python3 redhat-lsb-core systemd \
-  gcc gcc-c++ make diffutils python3-pexpect sudo
+  dnf --assumeyes install openssh-server python3 redhat-lsb-core systemd

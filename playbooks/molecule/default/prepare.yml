@@ -5,6 +5,16 @@
     ansible_python_interpreter: /usr/bin/python3
     gentoo_prefix_path: /cvmfs/pilot.eessi-hpc.org/2020.08/compat/x86_64
   tasks:
+    - name: install software
+      package:
+        name:
+          - gcc
+          - gcc-c++
+          - make
+          - diffutils
+          - sudo
+        state: present
+
     - name: create bootstrap user
       user:
         name: bootstrap
